@@ -34,6 +34,10 @@ public class Cars {
                 .toList();
     }
 
+    public List<Car> getCars() {
+        return cars;
+    }
+
     /** 
      * 자동차 목록에서 가장 멀리 이동한 자동차의 위치를 반환한다.
      * @return 가장 멀리 이동한 자동차의 위치

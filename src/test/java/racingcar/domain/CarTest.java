@@ -1,11 +1,19 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class CarTest {
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "racing"})
+    void 자동차_이름은_1자_이상_5자_이하여야_한다(String name) {
+        assertThatThrownBy(() -> new Car(name))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 
     @ParameterizedTest
     @ValueSource(ints = {4, 5, 6, 7, 8, 9})

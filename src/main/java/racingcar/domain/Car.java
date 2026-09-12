@@ -4,13 +4,16 @@ public class Car {
 
     //final : 생성 후 변수가 바뀌지 x
     private static final int MOVABLE_NUMBER = 4;
+    private static final int MAX_NAME_LENGTH = 5;
 
     private final String name;
     private int position;
 
     //생성자
     public Car(String name) {
+        validateName(name);
         this.name = name;
+        this.position = 0;
     }
     
     /**
@@ -23,8 +26,8 @@ public class Car {
      */
     public void move(NumberGenerator numberGenerator) {
         // 전달받은 객체에게 숫자를 요청한다. Car는 숫자를 만드는 방법을 알 필요가 없다.
-        int number = numberGenerator.generate();
-        if (canMove(number)) {
+        int generatedNumber = numberGenerator.generate();
+        if (canMove(generatedNumber)) {
             position++;
         }
     }
@@ -39,5 +42,16 @@ public class Car {
 
     private boolean canMove(int number) {
         return number >= MOVABLE_NUMBER;
+    }
+
+    /**
+     * 자동차 이름이 유효한지 확인한다.
+     * @param name 자동차 이름
+     * @throws IllegalArgumentException 자동차 이름이 null이거나 공백이거나 5자를 초과하면 예외 발생
+     */
+    private void validateName(String name) {
+        if (name == null || name.isBlank() || name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("자동차 이름은 1자 이상 5자 이하여야 합니다.");
+        }
     }
 }
