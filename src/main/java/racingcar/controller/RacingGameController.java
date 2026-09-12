@@ -1,7 +1,5 @@
 package racingcar.controller;
 
-import java.util.List;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
@@ -14,12 +12,14 @@ public class RacingGameController {
     private final InputView inputView;
     private final OutputView outputView;
     private final NumberGenerator numberGenerator;
+    private final InputValidator inputValidator;
 
     public RacingGameController(InputView inputView, OutputView outputView,
-                                NumberGenerator numberGenerator) {
+                                NumberGenerator numberGenerator, InputValidator inputValidator) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.numberGenerator = numberGenerator;
+        this.inputValidator = inputValidator;
     }
 
     /** 
@@ -38,12 +38,12 @@ public class RacingGameController {
         RacingGame racingGame = createRacingGame();
 
         /** 사용자로부터 시도 횟수를 입력받음. */
-        int tryCount = inputView.readTryCount();
+        int tryCount = inputValidator.parseTryCount(inputView.readTryCount());
 
         /** 경주 시작 전 안내 문구 출력 */
         outputView.printExecutionResult();
 
-        /** racingGame.race로 입력받은 횟수만큼 경주를 진행하고, 
+        /** racingGame.playRound으로 입력받은 횟수만큼 경주를 진행하고, 
          * 라운드 결과를 출력 
          */
         playRounds(racingGame, tryCount);
@@ -57,15 +57,12 @@ public class RacingGameController {
      * @return 생성된 RacingGame 객체
      */
     private RacingGame createRacingGame() {
-        List<Car> cars = inputView.readCarNames().stream()
-                .map(Car::new)//메서드 참조 문법: 객체를 만듬
-                .toList();
-        return new RacingGame(new Cars(cars));
+        return new RacingGame(new Cars(inputValidator.createCars(inputView.readCarNames())));
     }//자동차들 입력받아서 oop로 RacingGame 객체를 만들어서 반환합니다.
 
     private void playRounds(RacingGame racingGame, int tryCount) {
         for (int count = 0; count < tryCount; count++) {
-            racingGame.race(numberGenerator);
+            racingGame.playRound(numberGenerator);
             outputView.printRound(racingGame.getCars());
         }
     }

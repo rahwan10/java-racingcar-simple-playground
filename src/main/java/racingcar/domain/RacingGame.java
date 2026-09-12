@@ -15,7 +15,7 @@ public class RacingGame {
      * 자동차들을 움직인다.
      * @param numberGenerator generate()를 호출하면 움직임 판단용 정수를 주는 객체
      */
-    public void race(NumberGenerator numberGenerator) {
+    public void playRound(NumberGenerator numberGenerator) {
         cars.move(numberGenerator);
     }
 

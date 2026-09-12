@@ -13,7 +13,7 @@ class RacingGameTest {
         Car crong = new Car("crong");
         RacingGame racingGame = new RacingGame(new Cars(List.of(pobi, crong)));
 
-        racingGame.race(() -> 4);
+        racingGame.playRound(() -> 4);
 
         assertThat(pobi.getPosition()).isEqualTo(1);
         assertThat(crong.getPosition()).isEqualTo(1);
