@@ -1,5 +1,8 @@
 package racingcar.controller;
 
+import java.util.List;
+import java.util.function.Supplier;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
@@ -38,7 +41,7 @@ public class RacingGameController {
         RacingGame racingGame = createRacingGame();
 
         /** 사용자로부터 시도 횟수를 입력받음. */
-        int tryCount = inputValidator.parseTryCount(inputView.readTryCount());
+        int tryCount = readTryCount();
 
         /** 경주 시작 전 안내 문구 출력 */
         outputView.printExecutionResult();
@@ -57,8 +60,26 @@ public class RacingGameController {
      * @return 생성된 RacingGame 객체
      */
     private RacingGame createRacingGame() {
-        return new RacingGame(new Cars(inputValidator.createCars(inputView.readCarNames())));
+        return new RacingGame(new Cars(readCarNames()));
     }//자동차들 입력받아서 oop로 RacingGame 객체를 만들어서 반환합니다.
+
+    private List<Car> readCarNames() {
+        return retryUntilSuccess(() -> inputValidator.createCars(inputView.readCarNames()));
+    }
+
+    private int readTryCount() {
+        return retryUntilSuccess(() -> inputValidator.parseTryCount(inputView.readTryCount()));
+    }
+
+    private <T> T retryUntilSuccess(Supplier<T> action) {
+        while (true) {
+            try {
+                return action.get();
+            } catch (IllegalArgumentException exception) {
+                outputView.printError(exception.getMessage());
+            }
+        }
+    }
 
     private void playRounds(RacingGame racingGame, int tryCount) {
         for (int count = 0; count < tryCount; count++) {

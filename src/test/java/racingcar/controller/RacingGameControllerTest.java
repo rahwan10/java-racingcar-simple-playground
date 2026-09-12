@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.Car;
@@ -22,6 +23,20 @@ class RacingGameControllerTest {
         assertThat(outputView.winners).containsExactly("pobi", "crong");
     }
 
+    @Test
+    void 잘못된_입력이면_오류를_출력하고_다시_입력받는다() {
+        RecordingOutputView outputView = new RecordingOutputView();
+        RacingGameController controller = new RacingGameController(
+                retryingInputView(), outputView, () -> 4, new InputValidator());
+
+        controller.run();
+
+        assertThat(outputView.errorMessages).containsExactly(
+                "자동차 이름은 1자 이상 5자 이하여야 합니다.",
+                "시도 횟수는 1 이상이어야 합니다.");
+        assertThat(outputView.roundCount).isEqualTo(2);
+    }
+
     private InputView fixedInputView() {
         return new InputView() {
             @Override
@@ -36,10 +51,34 @@ class RacingGameControllerTest {
         };
     }
 
+    private InputView retryingInputView() {
+        return new InputView() {
+            private int carNameReadCount;
+            private int tryCountReadCount;
+
+            @Override
+            public String readCarNames() {
+                if (carNameReadCount++ == 0) {
+                    return "racing";
+                }
+                return "pobi,crong";
+            }
+
+            @Override
+            public String readTryCount() {
+                if (tryCountReadCount++ == 0) {
+                    return "0";
+                }
+                return "2";
+            }
+        };
+    }
+
     private static class RecordingOutputView extends OutputView {
 
         private int roundCount;
         private List<String> winners;
+        private final List<String> errorMessages = new ArrayList<>();
 
         @Override
         public void printExecutionResult() {
@@ -53,6 +92,11 @@ class RacingGameControllerTest {
         @Override
         public void printWinners(List<String> winners) {
             this.winners = winners;
+        }
+
+        @Override
+        public void printError(String errorMessage) {
+            errorMessages.add(errorMessage);
         }
     }
 }

@@ -21,6 +21,10 @@ public class OutputView {
         System.out.println(String.join(", ", winners) + "가 최종 우승했습니다.");
     }
 
+    public void printError(String errorMessage) {
+        System.out.println("[ERROR] " + errorMessage);
+    }
+
     private void printPosition(Car car) {
         System.out.println(car.getName() + " : " + MOVE_MARK.repeat(car.getPosition()));
     }
