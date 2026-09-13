@@ -18,4 +18,14 @@ public class Cars {
             cars.get(i).move(randomValues.get(i));
         }
     }
+
+    private int findMaxPosition(){
+        int maxPosition=0;
+        for (Car car:cars){
+            if (car.getPosition()>maxPosition){
+                maxPosition=car.getPosition();
+            }
+        }
+        return maxPosition;
+    }
 }
