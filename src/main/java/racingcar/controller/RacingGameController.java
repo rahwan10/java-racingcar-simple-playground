@@ -15,14 +15,14 @@ public class RacingGameController {
     private final InputView inputView;
     private final OutputView outputView;
     private final NumberGenerator numberGenerator;
-    private final InputValidator inputValidator;
+    private final InputParser inputParser;
 
     public RacingGameController(InputView inputView, OutputView outputView,
-                                NumberGenerator numberGenerator, InputValidator inputValidator) {
+                                NumberGenerator numberGenerator, InputParser inputParser) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.numberGenerator = numberGenerator;
-        this.inputValidator = inputValidator;
+        this.inputParser = inputParser;
     }
 
     /** 
@@ -60,15 +60,15 @@ public class RacingGameController {
      * @return 생성된 RacingGame 객체
      */
     private RacingGame createRacingGame() {
-        return new RacingGame(new Cars(readCarNames()));
+        return new RacingGame(new Cars(readCars()));
     }//자동차들 입력받아서 oop로 RacingGame 객체를 만들어서 반환합니다.
 
-    private List<Car> readCarNames() {
-        return retryUntilSuccess(() -> inputValidator.createCars(inputView.readCarNames()));
+    private List<Car> readCars() {
+        return retryUntilSuccess(() -> inputParser.parseCars(inputView.readCarNames()));
     }
 
     private int readTryCount() {
-        return retryUntilSuccess(() -> inputValidator.parseTryCount(inputView.readTryCount()));
+        return retryUntilSuccess(() -> inputParser.parseTryCount(inputView.readTryCount()));
     }
 
     private <T> T retryUntilSuccess(Supplier<T> action) {

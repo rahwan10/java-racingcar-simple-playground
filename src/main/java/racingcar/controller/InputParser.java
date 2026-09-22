@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import racingcar.domain.Car;
 
-/** 화면에서 받은 문자열을 검증하고, 도메인에서 사용할 값으로 변환한다. */
-public class InputValidator {
+/** 화면에서 받은 문자열을 도메인에서 사용할 값으로 변환한다. */
+public class InputParser {
 
     private static final int MINIMUM_TRY_COUNT = 1;
 
-    public List<Car> createCars(String inputNames) {
+    public List<Car> parseCars(String inputNames) {
         return Arrays.stream(inputNames.split(",", -1))
                 .map(String::trim)
                 .map(Car::new)

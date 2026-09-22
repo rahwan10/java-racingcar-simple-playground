@@ -15,7 +15,7 @@ class RacingGameControllerTest {
     void 입력한_횟수만큼_라운드를_진행하고_우승자를_출력한다() {
         RecordingOutputView outputView = new RecordingOutputView();
         RacingGameController controller = new RacingGameController(
-                fixedInputView(), outputView, () -> 4, new InputValidator());
+                fixedInputView(), outputView, () -> 4, new InputParser());
 
         controller.run();
 
@@ -27,7 +27,7 @@ class RacingGameControllerTest {
     void 잘못된_입력이면_오류를_출력하고_다시_입력받는다() {
         RecordingOutputView outputView = new RecordingOutputView();
         RacingGameController controller = new RacingGameController(
-                retryingInputView(), outputView, () -> 4, new InputValidator());
+                retryingInputView(), outputView, () -> 4, new InputParser());
 
         controller.run();
 
