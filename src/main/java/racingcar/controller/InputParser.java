@@ -12,7 +12,7 @@ public class InputParser {
     public List<Car> parseCars(String inputNames) {
         return Arrays.stream(inputNames.split(",", -1))
                 .map(String::trim)
-                .map(Car::new)
+                .map(this::createCar)
                 .toList();
     }
 
@@ -26,13 +26,21 @@ public class InputParser {
         try {
             return Integer.parseInt(inputTryCount);
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("시도 횟수는 숫자여야 합니다.");
+            throw new InvalidInputException("시도 횟수는 숫자여야 합니다.");
         }
     }
 
     private void validateTryCount(int tryCount) {
         if (tryCount < MINIMUM_TRY_COUNT) {
-            throw new IllegalArgumentException("시도 횟수는 1 이상이어야 합니다.");
+            throw new InvalidInputException("시도 횟수는 1 이상이어야 합니다.");
+        }
+    }
+
+    private Car createCar(String name) {
+        try {
+            return new Car(name);
+        } catch (IllegalArgumentException exception) {
+            throw new InvalidInputException(exception.getMessage());
         }
     }
 }

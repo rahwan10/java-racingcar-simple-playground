@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,22 @@ class RacingGameControllerTest {
                 "자동차 이름은 1자 이상 5자 이하여야 합니다.",
                 "시도 횟수는 1 이상이어야 합니다.");
         assertThat(outputView.roundCount).isEqualTo(2);
+    }
+
+    @Test
+    void 입력_예외가_아닌_예외는_다시_시도하지_않고_전파한다() {
+        InputParser brokenParser = new InputParser() {
+            @Override
+            public List<Car> parseCars(String inputNames) {
+                throw new IllegalArgumentException("입력 처리 외부에서 발생한 오류");
+            }
+        };
+        RacingGameController controller = new RacingGameController(
+                fixedInputView(), new RecordingOutputView(), () -> 4, brokenParser);
+
+        assertThatThrownBy(controller::run)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("입력 처리 외부에서 발생한 오류");
     }
 
     private InputView fixedInputView() {

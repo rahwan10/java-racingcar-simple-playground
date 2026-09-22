@@ -75,7 +75,7 @@ public class RacingGameController {
         while (true) {
             try {
                 return action.get();
-            } catch (IllegalArgumentException exception) {
+            } catch (InvalidInputException exception) {
                 outputView.printError(exception.getMessage());
             }
         }

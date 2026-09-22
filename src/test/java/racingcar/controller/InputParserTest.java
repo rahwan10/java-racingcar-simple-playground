@@ -25,7 +25,7 @@ class InputParserTest {
     @ValueSource(strings = {"pobi,", ",", "pobi,,crong"})
     void 비어_있는_자동차_이름은_예외를_발생시킨다(String inputNames) {
         assertThatThrownBy(() -> inputParser.parseCars(inputNames))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidInputException.class)
                 .hasMessage("자동차 이름은 1자 이상 5자 이하여야 합니다.");
     }
 
@@ -39,13 +39,15 @@ class InputParserTest {
     @Test
     void 숫자가_아닌_시도_횟수는_예외를_발생시킨다() {
         assertThatThrownBy(() -> inputParser.parseTryCount("three"))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidInputException.class)
+                .hasMessage("시도 횟수는 숫자여야 합니다.");
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "-1"})
     void 시도_횟수는_1_이상이어야_한다(String inputTryCount) {
         assertThatThrownBy(() -> inputParser.parseTryCount(inputTryCount))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidInputException.class)
+                .hasMessage("시도 횟수는 1 이상이어야 합니다.");
     }
 }
