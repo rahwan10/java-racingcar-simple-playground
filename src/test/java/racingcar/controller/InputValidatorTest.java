@@ -21,6 +21,14 @@ class InputValidatorTest {
                 .containsExactly("pobi", "crong");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"pobi,", ",", "pobi,,crong"})
+    void 비어_있는_자동차_이름은_예외를_발생시킨다(String inputNames) {
+        assertThatThrownBy(() -> inputValidator.createCars(inputNames))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("자동차 이름은 1자 이상 5자 이하여야 합니다.");
+    }
+
     @Test
     void 시도_횟수_문자열을_정수로_변환한다() {
         int tryCount = inputValidator.parseTryCount("3");

@@ -1,11 +1,19 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class CarsTest {
+
+    @Test
+    void 참가_자동차는_한_대_이상이어야_한다() {
+        assertThatThrownBy(() -> new Cars(List.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("참가 자동차는 한 대 이상이어야 합니다.");
+    }
 
     @Test
     void 모든_자동차는_한_번의_경주에서_이동을_시도한다() {

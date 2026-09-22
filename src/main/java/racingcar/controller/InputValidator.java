@@ -10,7 +10,7 @@ public class InputValidator {
     private static final int MINIMUM_TRY_COUNT = 1;
 
     public List<Car> createCars(String inputNames) {
-        return Arrays.stream(inputNames.split(","))
+        return Arrays.stream(inputNames.split(",", -1))
                 .map(String::trim)
                 .map(Car::new)
                 .toList();
