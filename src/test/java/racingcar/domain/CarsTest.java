@@ -1,0 +1,61 @@
+package racingcar.domain;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import racingcar.TestNumberGenerator;
+
+import java.util.List;
+
+public class CarsTest {
+    @DisplayName("1,2번차 공동우승한다")
+    @Test
+    void findWinnersTest() {
+        Car car1 = new Car("동건");
+        Car car2 = new Car("규민");
+        Car car3 = new Car("재홍");
+        List<Car> cars = List.of(car1, car2, car3);
+        NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 5, 1));
+        Cars carRace = new Cars(cars);
+
+        carRace.playRound(numberGenerator);
+        List<Car> winners = carRace.findWinners();
+
+        assertThat(winners).isEqualTo(List.of(car1, car2));
+    }
+
+    @DisplayName("1번차만 승리한다")
+    @Test
+    void findOnlyOneWinnerTest() {
+        Car car1 = new Car("동건");
+        Car car2 = new Car("규민");
+        Car car3 = new Car("재홍");
+        List<Car> cars = List.of(car1, car2, car3);
+        NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
+        Cars carRace = new Cars(cars);
+
+        carRace.playRound(numberGenerator);
+        List<Car> winners = carRace.findWinners();
+
+        assertThat(winners).isEqualTo(List.of(car1));
+    }
+
+    @DisplayName("모든차가 승리한다")
+    @Test
+    void findAllWinnerTest() {
+        Car car1 = new Car("동건");
+        Car car2 = new Car("규민");
+        Car car3 = new Car("재홍");
+        List<Car> cars = List.of(car1, car2, car3);
+        //NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
+        Cars carRace = new Cars(cars);
+
+        carRace.playRound(() -> 4);
+        List<Car> winners = carRace.findWinners();
+
+        assertThat(winners).isEqualTo(List.of(car1, car2, car3));
+    }
+
+
+}
