@@ -11,6 +11,5 @@ public class CarsFactory {
             cars.add(new Car(name));
         }
         return cars;
-
     }
 }
