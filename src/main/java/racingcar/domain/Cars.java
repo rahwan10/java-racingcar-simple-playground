@@ -3,23 +3,18 @@ package racingcar.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarRace {
+public class Cars {
     private final List<Car> cars;
-    private final NumberGenerator numberGenerator;
 
-    public CarRace(List<Car> cars, NumberGenerator numberGenerator) {
+    public Cars(List<Car> cars) {
         this.cars = cars;
-        this.numberGenerator = numberGenerator;
     }
 
-    public void race(int roundCount) { // 이제 사용안함
-        for (int i = 0; i < roundCount; i++) {
-            playRound();
-        }
-
+    public List<Car> getCars() {
+        return cars;
     }
 
-    public void playRound() {
+    public void playRound(NumberGenerator numberGenerator) {
         for (Car car : cars) {
             int number = numberGenerator.generate();
             car.move(number);
@@ -45,7 +40,7 @@ public class CarRace {
             }
         }
         return maxPosition;
-    }//인스턴스
+    }
 
 
 }

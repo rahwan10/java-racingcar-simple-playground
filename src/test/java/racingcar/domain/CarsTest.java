@@ -8,7 +8,7 @@ import racingcar.TestNumberGenerator;
 
 import java.util.List;
 
-public class CarRaceTest {
+public class CarsTest {
     @DisplayName("1,2번차 공동우승한다")
     @Test
     void findWinnersTest() {
@@ -17,7 +17,7 @@ public class CarRaceTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 5, 1));
-        CarRace carRace = new CarRace(cars, numberGenerator);
+        Cars carRace = new Cars(cars, numberGenerator);
 
         carRace.race(1);
         List<Car> winners = carRace.findWinners();
@@ -33,7 +33,7 @@ public class CarRaceTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
-        CarRace carRace = new CarRace(cars, numberGenerator);
+        Cars carRace = new Cars(cars, numberGenerator);
 
         carRace.race(1);
         List<Car> winners = carRace.findWinners();
@@ -49,7 +49,7 @@ public class CarRaceTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         //NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
-        CarRace carRace = new CarRace(cars, ()->4);
+        Cars carRace = new Cars(cars, ()->4);
 
         carRace.race(1);
         List<Car> winners = carRace.findWinners();
