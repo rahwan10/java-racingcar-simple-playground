@@ -1,9 +1,10 @@
 package racingcar.controller;
 
 import racingcar.domain.Car;
-import racingcar.domain.CarRace;
+import racingcar.domain.Cars;
 import racingcar.domain.CarsFactory;
 import racingcar.domain.RandomNumberGenerator;
+import racingcar.view.GameSettings;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -19,20 +20,20 @@ public class Controller {
     }
 
     public void run() {
-        String namesInput = inputView.readCarNames();
-        int countInput = inputView.readTryCount();
-        List<Car> cars = CarsFactory.createCars(namesInput);
-        CarRace carRace = new CarRace(cars, new RandomNumberGenerator());
-        for (int i = 0; i < countInput; i++) {
-            carRace.playRound();
-            outputView.printCarsPosition(cars);
+        GameSettings gameSettings = inputView.readGameSettings();
+
+        List<Car> carss = CarsFactory.createCars(gameSettings.namesInput());
+        Cars cars = new Cars(carss);
+
+        for (int i = 0; i < gameSettings.tryCount(); i++) {
+            cars.playRound(new RandomNumberGenerator());
+            outputView.printCarsPosition(cars.getCars());
         }
 
-        List<Car> winners = carRace.findWinners();
+        List<Car> winners = cars.findWinners();
         outputView.printWinner(winners);
 
     }
-
 
 
 }
