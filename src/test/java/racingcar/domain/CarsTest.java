@@ -17,9 +17,9 @@ public class CarsTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 5, 1));
-        Cars carRace = new Cars(cars, numberGenerator);
+        Cars carRace = new Cars(cars);
 
-        carRace.race(1);
+        carRace.playRound(numberGenerator);
         List<Car> winners = carRace.findWinners();
 
         assertThat(winners).isEqualTo(List.of(car1, car2));
@@ -33,9 +33,9 @@ public class CarsTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
-        Cars carRace = new Cars(cars, numberGenerator);
+        Cars carRace = new Cars(cars);
 
-        carRace.race(1);
+        carRace.playRound(numberGenerator);
         List<Car> winners = carRace.findWinners();
 
         assertThat(winners).isEqualTo(List.of(car1));
@@ -49,12 +49,12 @@ public class CarsTest {
         Car car3 = new Car("재홍");
         List<Car> cars = List.of(car1, car2, car3);
         //NumberGenerator numberGenerator = new TestNumberGenerator(List.of(5, 2, 1));
-        Cars carRace = new Cars(cars, ()->4);
+        Cars carRace = new Cars(cars);
 
-        carRace.race(1);
+        carRace.playRound(() -> 4);
         List<Car> winners = carRace.findWinners();
 
-        assertThat(winners).isEqualTo(List.of(car1,car2,car3));
+        assertThat(winners).isEqualTo(List.of(car1, car2, car3));
     }
 
 

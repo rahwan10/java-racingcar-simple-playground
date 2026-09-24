@@ -12,7 +12,8 @@ public class OutputView {
 
         }
     }
-    public void printWinner(List<Car> cars){
+
+    public void printWinner(List<Car> cars) {
         List<String> names = new ArrayList<>();
         for (Car car : cars) {
             names.add(car.getName());
